@@ -2,13 +2,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 class Encrypt{
+    static StringBuilder key = new StringBuilder();
     private static String ukr = "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя";
 
     public static void main(String[] args) {
         getUserInput();
     }
     static void genKey(String message){
-        StringBuilder key = new StringBuilder();
         Random rand = new Random();
 
         int min = 1;
@@ -17,10 +17,7 @@ class Encrypt{
             key.append(rand.nextInt(max - min) + min);
         }
 
-        System.out.println("Ключ: " + key); // We use not reversed key to give it to user
-        key.reverse();
-        System.out.println("Reversed key: " + key); // Reserved key is used to encrypt and decrypt message
-        encrypt(message, key.toString());
+        encrypt(message, key.reverse().toString());
     }
 
     static void getUserInput(){
@@ -40,8 +37,6 @@ class Encrypt{
         int min = 0;
         int max = 33;
 
-        System.out.printf("Підговтовка до шифрування. Провірка всіх данних:\n * повідомлення %s\n * ключ %s", message, key);
-
         for(int i = 0; i < message.length(); i++){
             int amount = Integer.parseInt(String.valueOf(key.charAt(i))); // amount of null chars
 
@@ -57,6 +52,11 @@ class Encrypt{
             result.append(ukr.charAt(id));
         }
 
-        System.out.println("\nЗашифроване повідомлення: " + result);
+        showResult(result.toString());
+    }
+    static void showResult(String encMessage){
+
+        System.out.println("KEY: " + key.reverse().toString());
+        System.out.println("Encrypted message: " + encMessage);
     }
 }
